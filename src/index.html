@@ -25,13 +25,7 @@
 <body>
 <header><div class="nav">
   <div class="brand" onclick="go('home')"><span class="brandmark">M</span><span>MOVANA</span></div>
-  <nav class="navlinks" aria-label="Main navigation">
-    <button class="active" data-nav="home" onclick="go('home')">Home</button>
-    <button data-nav="movies" onclick="go('movies')">Movies</button>
-    <button data-nav="series" onclick="go('series')">Series</button>
-    <button data-nav="live" onclick="go('live')">Live</button>
-    <button data-nav="list" onclick="go('list')">My List</button>
-  </nav>
+  <nav class="navlinks" aria-label="Main navigation"><button data-nav="home" onclick="go(&quot;home&quot;)">Home</button><button data-nav="browse" onclick="go(&quot;browse&quot;)">Explore</button><button data-nav="movies" onclick="go(&quot;movies&quot;)">Movies</button><button data-nav="series" onclick="go(&quot;series&quot;)">Series</button><button data-nav="live" onclick="go(&quot;live&quot;)">Live</button><button data-nav="list" onclick="go(&quot;list&quot;)">My List</button></nav>
   <div class="navright"><button class="iconbtn" aria-label="Search" onclick="document.getElementById('search').focus();go('browse')">⌕</button><button class="outline" id="authButton" onclick="openAuth()">Sign in</button></div>
 </div></header>
 <main class="main">
