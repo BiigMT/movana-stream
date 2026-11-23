@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>MOVANA — Movies & TV Streaming Platform</title>
+<style>
+  :root {
+    --bg-main: #0B0C0E;
+    --bg-card: #16181D;
+    --bg-elevated: #1F222A;
+    --text-primary: #FFFFFF;
+    --text-muted: #9CA3AF;
+    --accent-green: #1CE783;
+    --accent-red: #E50914;
+    --border-subtle: rgba(255, 255, 255, 0.08);
+  }
+
+  * {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+
+  body {
+    background-color: var(--bg-main);
+    color: var(--text-primary);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    line-height: 1.5;
+    overflow-x: hidden;
+    padding-bottom: 80px;
+  }
+
+  /* Header & Navigation */
+  header {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    background: rgba(11, 12, 14, 0.85);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    border-bottom: 1px solid var(--border-subtle);
+    padding: 14px 24px;
+  }
+
+  .nav-top {
+    max-width: 1320px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+  }
+
+  .brand {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-weight: 800;
+    font-size: 1.35rem;
+    letter-spacing: -0.02em;
+    cursor: pointer;
+  }
+
+  .brand-logo {
+    width: 36px;
+    height: 36px;
+    border-radius: 12px;
+    background: linear-gradient��Z��k�w��k{�����w�+z��j)_���Z.���
+  async function adminCreateTitle(e){e.preventDefault();const msg=document.getElementById('adminTitleMessage'),btn=document.getElementById('adminTitleSubmit');btn.disabled=true;msg.textContent='Uploading and saving…';try{const title=document.getElementById('adminTitle').value.trim(),poster=document.getElementById('adminPosterFile').files[0],video=document.getElementById('adminVideoFile').files[0],external=document.getElementById('adminPlaybackUrl').value.trim();if(!video&&!external)throw new Error('Choose a video file or enter an external playback URL.');if(document.getElementById('adminAccess').value==='premium'&&external)throw new Error('Premium titles must use private MOVANA storage uploads, not a public playback URL.');if(video&&video.size>1536*1024*1024)throw new Error('Video must be under 1.5 GB for this upload form.');const stamp=Date.now();let posterPath=null,videoPath=null;if(poster){posterPath=movanaUser.id+'/admin-posters/'+stamp+'-'+poster.name.replace(/[^a-z0-9._-]/gi,'-');const p=await movanaSupabase.storage.from('movana-posters').upload(posterPath,poster,{contentType:poster.type,upsert:false});if(p.error)throw p.error;}if(video){videoPath=movanaUser.id+'/admin-media/'+stamp+'-'+video.name.replace(/[^a-z0-9._-]/gi,'-');const v=await movanaSupabase.storage.from('movana-media').upload(videoPath,video,{contentType:video.type,upsert:false});if(v.error)throw v.error;}const type=document.getElementById('adminType').value,featured=document.getElementById('adminFeatured').checked,status=document.getElementById('adminPublish').checked?'published':'draft';const access=document.getElementById('adminAccess').value;if(access==='premium'&&external)throw new Error('Premium titles must use private MOVANA storage uploads, not a public playback URL.');const row={creator_id:movanaUser.id,title,series_title:document.getElementById('adminSeriesTitle').value.trim()||null,synopsis:document.getElementById('adminSynopsis').value.trim(),content_type:type,genre:document.getElementById('adminGenre').value.trim()||'Drama',poster_path:posterPath,video_path:videoPath,playback_url:external||null,status,access_level:document.getElementById('adminAccess').value,featured,release_year:Number(document.getElementById('adminYear').value)||null,duration_seconds:(Number(document.getElementById('adminDuration').value)||0)*60||null,season_number:Number(document.getElementById('adminSeason').value)||null,episode_number:Number(document.getElementById('adminEpisode').value)||null};const ins=await movanaSupabase.from('movana_titles').insert(row);if(ins.error)throw ins.error;msg.textContent='Saved successfully.';document.getElementById('adminTitleForm').reset();await loadPublishedTitles();await adminRenderTitles(document.getElementById('adminTabContent'));}catch(err){msg.textContent=err.message||'Could not save title.';}finally{btn.disabled=false;}}
+  async function adminToggleTitle(id,status){const r=await movanaSupabase.from('movana_titles').update({status}).eq('id',id);if(r.error){showToast(r.error.message);return;}await loadPublishedTitles();adminTab('titles');}
+  async function adminToggleFeatured(id,featured){const r=await movanaSupabase.from('movana_titles').update({featured}).eq('id',id);if(r.error){showToast(r.error.message);return;}adminTab('titles');}
+  async function adminRenderSubmissions(box){const r=await movanaSupabase.from('movana_creator_uploads').select('id,user_id,title,content_type,storage_path,poster_path,status,created_at').order('created_at',{ascending:false}).limit(100);if(r.error){box.textContent=r.error.message;return;}box.innerHTML='<h3>Creator submissions</h3><p class="admin-hint">Approve submissions to publish them, or reject them. The creator upload remains private until approval.</p><div class="admin-list">'+(r.data||[]).map(x=>`<div class="admin-row"><img src="${x.poster_path?escapeHtml(movanaSupabase.storage.from('movana-posters').getPublicUrl(x.poster_path).data.publicUrl):''}" alt=""><div class="row-info"><strong>${escapeHtml(x.title)}</strong><small>${escapeHtml(x.content_type)} · ${escapeHtml(x.status)} · creator ${escapeHtml(x.user_id.slice(0,8))}</small></div><div class="row-actions"><button onclick="adminReviewSubmission('${x.id}','${x.user_id}','${x.storage_path}','approved')">Approve</button><button onclick="adminReviewSubmission('${x.id}','${x.user_id}','${x.storage_path}','rejected')">Reject</button></div></div>`).join('')+'</div>';}
+  async function adminReviewSubmission(id,userId,path,status){const up=await movanaSupabase.from('movana_creator_uploads').update({status}).eq('id',id);if(up.error){showToast(up.error.message);return;}const titleStatus=status==='approved'?'published':'rejected';const t=await movanaSupabase.from('movana_titles').update({status:titleStatus}).eq('creator_id',userId).eq('video_path',path);if(t.error){showToast('Submission updated, title update: '+t.error.message);return;}showToast('Creator submission '+status+'.');await loadPublishedTitles();adminTab('submissions');}
+  async function adminRenderLive(box){const r=await movanaSupabase.from('movana_live_channels').select('id,creator_id,title,description,playback_url,status,provider').order('created_at',{ascending:false}).limit(100);if(r.error){box.textContent=r.error.message;return;}box.innerHTML=`<h3>Add or configure a live channel</h3><p class="admin-hint">Paste a stream playback URL from your live-video provider (typically an HLS .m3u8 URL). MOVANA does not yet generate broadcast ingest keys by itself.</p><form class="admin-form" onsubmit="adminCreateLive(event)"><label>Channel title<input id="adminLiveTitle" required></label><label>Provider<input id="adminLiveProvider" placeholder="Mux / Cloudflare / other"></label><label class="wide">Description<input id="adminLiveDescription"></label><label class="wide">Playback URL<input id="adminLiveUrl" type="url" placeholder="https://…/live.m3u8" required></label><button class="admin-submit">Publish live channel</button></form><div class="admin-list">${(r.data||[]).map(x=>`<div class="admin-row"><div class="row-info"><strong>${escapeHtml(x.title)}</strong><small>${escapeHtml(x.status)} · ${escapeHtml(x.provider||'External provider')}</small></div><div class="row-actions"><button onclick="adminSetLive('${x.id}','${x.status==='live'?'offline':'live'}')">${x.status==='live'?'Stop':'Set live'}</button></div></div>`).join('')||'<p class="admin-hint">No channel requests yet.</p>'}</div>`;}
+  async function adminCreateLive(e){e.preventDefault();const row={creator_id:movanaUser.id,title:document.getElementById('adminLiveTitle').value.trim(),provider:document.getElementById('adminLiveProvider').value.trim()||null,description:document.getElementById('adminLiveDescription').value.trim(),playback_url:document.getElementById('adminLiveUrl').value.trim(),status:'live'};const r=await movanaSupabase.from('movana_live_channels').insert(row);if(r.error){showToast(r.error.message);return;}showToast('Live channel published.');adminTab('live');}
+  async function adminSetLive(id,status){let update={status};if(status==='live'){const url=prompt('Paste the live stream playback URL (HLS .m3u8):');if(!url)return;update.playback_url=url;}const r=await movanaSupabase.from('movana_live_channels').update(update).eq('id',id);if(r.error){showToast(r.error.message);return;}adminTab('live');}
+  async function adminRenderPremium(box){const r=await movanaSupabase.from('movana_subscriptions').select('user_id,plan,status,current_period_end,provider').order('created_at',{ascending:false}).limit(100);if(r.error){box.textContent=r.error.message;return;}box.innerHTML='<h3>Premium access</h3><p class="admin-hint">Use this to grant or revoke test/comp access. Real customer payments and recurring billing still require a payment provider webhook.</p><form class="admin-form" onsubmit="adminGrantPremium(event)"><label class="wide">User UUID<input id="adminPremiumUser" required placeholder="User ID from Supabase Auth"></label><label>Plan<select id="adminPremiumPlan"><option value="premium">Premium</option><option value="free">Free</option></select></label><label>Status<select id="adminPremiumStatus"><option value="active">Active</option><option value="inactive">Inactive</option><option value="cancelled">Cancelled</option></select></label><button class="admin-submit">Save membership</button></form><div class="admin-list">'+(r.data||[]).map(x=>`<div class="admin-row"><div class="row-info"><strong>${escapeHtml(x.user_id)}</strong><small>${escapeHtml(x.plan)} · ${escapeHtml(x.status)} · ${escapeHtml(x.current_period_end||'No expiry')}</small></div></div>`).join('')+'</div>';}
+  async function adminGrantPremium(e){e.preventDefault();const user=document.getElementById('adminPremiumUser').value.trim(),plan=document.getElementById('adminPremiumPlan').value,status=document.getElementById('adminPremiumStatus').value;const r=await movanaSupabase.from('movana_subscriptions').upsert({user_id:user,plan,status,provider:'admin_grant',current_period_end:plan==='premium'&&status==='active'?new Date(Date.now()+90*86400000).toISOString():null},{onConflict:'user_id'});if(r.error){showToast(r.error.message);return;}showToast('Membership updated.');adminTab('premium');}
+
+  function openHub(){document.getElementById('hubModal').classList.add('open');}
+  function closeHub(){document.getElementById('hubModal').classList.remove('open');}
+  function closeHubOnBg(e){if(e.target.id==='hubModal')closeHub();}
+  async function openPremium(){openHub();let active=false;if(movanaUser&&movanaSupabase){const r=await movanaSupabase.from('movana_subscriptions').select('plan,status,current_period_end').eq('user_id',movanaUser.id).maybeSingle();active=r.data?.plan==='premium'&&r.data?.status==='active'&&(!r.data?.current_period_end||new Date(r.data.current_period_end)>new Date());}document.getElementById('hubContent').innerHTML=`<p class="auth-eyebrow">MOVANA PLUS</p><h2>${active?'You are a Premium member':'Choose how to watch'}</h2><p class="auth-copy">Browse the catalog for free. Sign in is required to watch or download. Choose either a 3-month membership or pay for an individual episode.</p><div class="hub-plan-grid"><div class="hub-plan"><h3>3-month membership</h3><strong>K50</strong><p>Watch all Premium movies, series and episodes for 3 months. No individual episode purchases needed while membership is active.</p><button class="hub-action" onclick="showToast('Membership checkout is coming soon; payments are not connected yet.')">${active?'Membership active':'Get 3 months'}</button></div><div class="hub-plan"><h3>Single episode</h3><strong>K10 / episode</strong><p>Buy access to an individual Premium episode without a membership.</p><button class="hub-action" onclick="showToast('Episode checkout is coming soon; payments are not connected yet.')">Buy an episode</button></div></div><p class="auth-copy">Payments are not connected yet. These prices are displayed now; checkout and episode ownership still need to be integrated.</p>`;}
+  async function requestLiveChannel(){if(!movanaUser){pendingAuthAction={action:'creator'};openAuth('signup');return;}const title=document.getElementById('liveChannelTitle').value.trim();if(!title){showToast('Enter a channel name first.');return;}const r=await movanaSupabase.from('movana_live_channels').insert({creator_id:movanaUser.id,title,status:'pending'});if(r.error){showToast(r.error.message);return;}document.getElementById('liveChannelTitle').value='';showToast('Live channel request submitted for review.');}
+  async function watchLiveChannel(id){if(!movanaSupabase)return;const r=await movanaSupabase.from('movana_live_channels').select('title,playback_url').eq('id',id).eq('status','live').maybeSingle();if(r.error||!r.data?.playback_url){showToast('This channel is not broadcasting yet.');return;}requireAccount('play',{title:r.data.title,videoUrl:r.data.playback_url});}
+  async function openLiveHub(){openHub();const box=document.getElementById('hubContent');box.innerHTML='<p class="auth-eyebrow">MOVANA LIVE</p><h2>Live channels</h2><p class="auth-copy">Browse live listings for free. Sign in to watch. Channels are provided by connected broadcasters.</p><div id="liveChannelsList"></div>';if(movanaSupabase){const r=await movanaSupabase.from('movana_live_channels').select('id,title,description').eq('status','live');if(!r.error&&r.data?.length){const list=document.getElementById('liveChannelsList');r.data.forEach(ch=>{const card=document.createElement('div');card.className='hub-plan';card.style.marginTop='12px';card.innerHTML='<span class="live-pill">● LIVE</span><h3>'+escapeHtml(ch.title)+'</h3><p>'+escapeHtml(ch.description||'Live channel')+'</p>';const btn=document.createElement('button');btn.className='hub-action';btn.textContent='Watch channel';btn.onclick=()=>watchLiveChannel(ch.id);card.appendChild(btn);list.appendChild(card);});}}}
+
+  function showToast(msg) {
+    const t = document.getElementById("toast");
+    t.textContent = msg;
+    t.style.display = "block";
+    clearTimeout(window._toastTimer);
+    window._toastTimer = setTimeout(() => { t.style.display = "none"; }, 2600);
+  }
+
+  function enterMovana() {
+    const intro = document.getElementById('movanaIntro');
+    if (!intro || intro.classList.contains('is-leaving')) return;
+    intro.classList.add('is-leaving');
+    document.body.style.overflow = '';
+  }
+  document.body.style.overflow = 'hidden';
+  window.setTimeout(enterMovana, 5200);
+  initMovanaAuth();
+  renderCatalog();
+</script>
+</body>
+</html>
