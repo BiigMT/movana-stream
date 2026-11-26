@@ -1,0 +1,405 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>Concrete Dreams Manga</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bangers&family=Comic+Neue:wght@700&family=Poppins:wght@500;600&display=swap" rel="stylesheet">
+<style>
+/* Layout: vertical manga reader. Ink-bordered panels stack on paper pages over a navy ground; under 640px each panel runs full width. */
+:root{--ground:#0a0f1c;--ink:#0b1220;--paper:#e6ecf8;--blue:#2a6df4;--gold:#f5b800;--slate:#3b4a66;--mist:#aebbd6;--disp:'Bangers',Impact,sans-serif;--ltr:'Comic Neue','Comic Sans MS',sans-serif;--ui:'Poppins',system-ui,sans-serif;color-scheme:dark}
+body{background:var(--ground);color:var(--mist);font-family:var(--ui);padding-block:24px 56px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.pg{width:min(100%,780px);margin:0 auto}
+.page{background:var(--paper);padding:10px;display:flex;flex-direction:column;gap:7px;box-shadow:0 10px 40px #0008}
+.row{display:flex;gap:7px;aspect-ratio:var(--ar)}
+.panel{flex:var(--w) 1 0;min-width:0;position:relative;overflow:hidden;border:3px solid var(--ink);background:var(--ink);container-type:inline-size}
+.panel svg.art{position:absolute;inset:0;width:100%;height:100%;display:block}
+.lbl{display:flex;justify-content:space-between;gap:12px;font:600 11px/1.2 var(--ui);letter-spacing:.14em;text-transform:uppercase;padding:10px 2px 26px;color:var(--mist)}
+.b{position:absolute;box-sizing:border-box;font:700 clamp(10px,3.5cqw,17px)/1.22 var(--ltr);color:var(--ink);background:#fff;border:2px solid var(--ink);border-radius:1.1em;padding:.45em .75em;text-align:center;z-index:3;text-wrap:balance}
+.b.s::after,.b.sr::after{content:'';position:absolute;bottom:-.5em;width:.75em;height:.75em;background:#fff;border-right:2px solid var(--ink);border-bottom:2px solid var(--ink);transform:rotate(45deg)}
+.b.s::after{left:22%}.b.sr::after{right:22%}
+.b.v{background:#fff3c4;border-radius:0;text-align:left;font-style:italic}
+.b.v::before{content:'V.O.';display:block;font:600 .6em var(--ui);letter-spacing:.16em;font-style:normal;color:#8a6500}
+.b.ph{background:#dce7ff;border-style:dashed}
+.b.ph::before{content:'PHONE';display:block;font:600 .58em var(--ui);letter-spacing:.16em;color:var(--slate)}
+.b.x{background:none;border:0;padding:0;font:400 clamp(20px,9cqw,56px)/1 var(--disp);color:var(--gold);-webkit-text-stroke:.07em var(--ink);paint-order:stroke fill;text-shadow:.06em .06em 0 var(--ink);transform:rotate(-7deg);letter-spacing:.04em}
+.cap{position:absolute;left:0;bottom:0;max-width:80%;background:var(--ink);color:var(--paper);font:600 clamp(9px,2.9cqw,13px)/1.3 var(--ui);padding:.5em .8em;z-index:3}
+.tag{position:absolute;left:0;top:0;max-width:92%;background:var(--ink);color:var(--gold);font:600 clamp(8px,2.5cqw,11px)/1.3 var(--ui);letter-spacing:.1em;text-transform:uppercase;padding:.55em .9em;z-index:4}
+.tag small{display:block;color:var(--mist);font-weight:500;letter-spacing:.06em}
+.phone{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);height:88%;aspect-ratio:.56;background:#101a30;border:3px solid #c9d4ea;border-radius:12%/7%;padding:9% 7%;box-sizing:border-box;display:flex;flex-direction:column;gap:.6em;z-index:2;font:600 clamp(9px,3.1cqw,14px)/1.3 var(--ui);color:#e6ecf8;box-shadow:0 0 0 .3em var(--ink)}
+.phone .who{font-size:.8em;letter-spacing:.12em;text-transform:uppercase;color:var(--gold)}
+.phone .msg{background:#1c2b4f;border-radius:.8em;padding:.6em .8em}
+.phone .me{align-self:flex-end;background:var(--blue)}
+.ttl{position:absolute;inset:0;display:grid;place-content:center;text-align:center;gap:.4em;z-index:2;padding:0 6%}
+.ttl.low{place-content:end center;padding-bottom:5%}
+.ttl b{font:400 clamp(30px,13cqw,100px)/.95 var(--disp);color:var(--blue);-webkit-text-stroke:.03em #0a1a40;text-shadow:.05em .05em 0 #0a1a40;letter-spacing:.03em}
+.ttl i{font:600 clamp(10px,3cqw,16px)/1.3 var(--ui);letter-spacing:.22em;color:var(--gold);font-style:normal;text-transform:uppercase}
+.ttl u{text-decoration:none;font:500 clamp(8px,2.3cqw,12px)/1.3 var(--ui);letter-spacing:.12em;color:var(--mist);text-transform:uppercase}
+.top{position:absolute;top:0;left:0;right:0;text-align:center;font:600 clamp(8px,2.4cqw,12px) var(--ui);letter-spacing:.24em;text-transform:uppercase;color:var(--paper);padding:.9em;z-index:3;background:linear-gradient(#0b1220cc,#0b122000)}
+.foot{width:min(100%,780px);margin:8px auto 0;font:500 12px/1.6 var(--ui);color:var(--mist);text-align:center}
+@media (max-width:640px){.row{flex-direction:column;aspect-ratio:auto}.panel{flex:none;width:100%;aspect-ratio:var(--par)}.page{padding:6px;gap:6px}}
+</style>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
+<pattern id="dots" width="6" height="6" patternUnits="userSpaceOnUse"><circle cx="3" cy="3" r="1.3" fill="#0b1220"/></pattern>
+<pattern id="hatch" width="8" height="8" patternUnits="userSpaceOnUse" patternTransform="rotate(35)"><line x1="0" y1="0" x2="0" y2="8" stroke="#0b1220" stroke-width="1"/></pattern>
+<pattern id="stripes" width="10" height="10" patternUnits="userSpaceOnUse"><rect width="10" height="4" fill="#0b1220" opacity=".5"/></pattern>
+<pattern id="cross" width="8" height="8" patternUnits="userSpaceOnUse"><path d="M0,0L8,8M8,0L0,8" stroke="#9fb0d6" stroke-width="1"/></pattern>
+</defs></svg>
+<main id="reader"></main>
+<script>
+(function(){
+var INK='#0b1220',SW='stroke="'+INK+'" stroke-width="3"';
+var SK={kal:'#9aaace',kas:'#8f9fc4',ken:'#8496bd',nat:'#a3b3d6',mer:'#91a2c8',tem:'#8a9bc1',pat:'#8496bd',ex1:'#93a4ca',ex2:'#8a9bc1'};
+var CL={kal:'#cbd6ec',kas:'#3b4a66',ken:'#e0e7f6',nat:'#f0f3fb',mer:'#f2f5fc',tem:'#e9eefb',pat:'#243049',ex1:'#c3cde4',ex2:'#6b7a9c'};
+function rnd(s){s=s||7;return function(){s=(s*16807)%2147483647;return s/2147483647}}
+function city(W,H,mode,seed,sc){
+ var r=rnd(seed),n=mode==='night',d=mode==='dusk';sc=sc||1;
+ var sky=n?'#0f1830':d?'#9aa8c9':'#cdd8ee',bc=n?'#1f2b4a':d?'#6f7fa3':'#8d9bb8',gr=n?'#121b33':'#56658a';
+ var o='<rect width="'+W+'" height="'+H+'" fill="'+sky+'"/><rect width="'+W+'" height="'+H+'" fill="url(#hatch)" opacity="'+(n?.2:.4)+'"/>';
+ var i;
+ if(n){for(i=0;i<16;i++)o+='<circle cx="'+r()*W+'" cy="'+r()*H*.5+'" r="'+(1+r()*1.6)+'" fill="#e6ecf8" opacity=".8"/>';o+='<circle cx="'+W*.84+'" cy="'+H*.15+'" r="'+H*.07+'" fill="#e6ecf8"/>'}
+ else for(i=0;i<3;i++)o+='<ellipse cx="'+r()*W+'" cy="'+H*(.1+r()*.2)+'" rx="'+W*.12+'" ry="'+H*.035+'" fill="#eef2fb" opacity=".85"/>';
+ var gy=H*.86,bw=Math.max(W,H*1.1)*.34*sc,x=-bw*(.15+r()*.3);
+ while(x<W){
+  var bh=H*(.5+r()*.22)*Math.min(sc,1.25),y=gy-bh,fh=bh/4;
+  o+='<rect x="'+x+'" y="'+y+'" width="'+bw+'" height="'+bh+'" fill="'+bc+'" '+SW+'/>';
+  for(var f=0;f<4;f++){var fy=y+f*fh;
+   o+='<rect x="'+x+'" y="'+(fy+fh*.86)+'" width="'+bw+'" height="'+fh*.14+'" fill="'+INK+'" opacity=".75"/>';
+   for(var c=0;c<4;c++){var lit=n&&r()>.7;
+    o+='<rect x="'+(x+bw*(.09+c*.225))+'" y="'+(fy+fh*.2)+'" width="'+bw*.14+'" height="'+fh*.5+'" fill="'+(lit?'#f5b800':(n?'#0f1830':'#223052'))+'" stroke="'+INK+'" stroke-width="1.5"/>'}}
+  o+='<rect x="'+(x+bw*.62)+'" y="'+y+'" width="'+bw*.38+'" height="'+bh+'" fill="url(#dots)" opacity=".4"/>';
+  x+=bw+W*.015+r()*W*.03}
+ o+='<rect y="'+gy+'" width="'+W+'" height="'+(H-gy)+'" fill="'+gr+'" '+SW+'/><rect y="'+gy+'" width="'+W+'" height="'+(H-gy)+'" fill="url(#dots)" opacity=".35"/>';
+ return o}
+function room(W,H,mode){
+ var n=mode==='night';
+ var o='<rect width="'+W+'" height="'+H+'" fill="'+(n?'#1a2440':'#b4c1dc')+'"/><rect width="'+W+'" height="'+H+'" fill="url(#hatch)" opacity="'+(n?.18:.25)+'"/>';
+ o+='<rect x="'+W*.62+'" y="'+H*.1+'" width="'+W*.28+'" height="'+H*.42+'" fill="'+(n?'#0f1830':'#eef3ff')+'" '+SW+'/><path d="M'+W*.76+','+H*.1+'V'+H*.52+'M'+W*.62+','+H*.31+'H'+W*.9+'" '+SW+'/>';
+ if(n)o+='<circle cx="'+W*.84+'" cy="'+H*.2+'" r="'+H*.04+'" fill="#e6ecf8"/><ellipse cx="'+W*.3+'" cy="'+H*.35+'" rx="'+W*.2+'" ry="'+H*.3+'" fill="#f5b800" opacity=".12"/>';
+ o+='<rect x="'+W*.06+'" y="'+H*.2+'" width="'+W*.3+'" height="'+H*.025+'" fill="'+INK+'"/>';
+ var cols=['#2a6df4','#f5b800','#3b4a66','#8d9bb8','#2a6df4'];
+ for(var i=0;i<5;i++)o+='<rect x="'+W*(.08+i*.05)+'" y="'+H*(.13-(i%2)*.02)+'" width="'+W*.035+'" height="'+H*(.07+(i%2)*.02)+'" fill="'+cols[i]+'" stroke="'+INK+'" stroke-width="2"/>';
+ o+='<rect y="'+H*.78+'" width="'+W+'" height="'+H*.22+'" fill="#3b3550" '+SW+'/><rect y="'+H*.78+'" width="'+W+'" height="'+H*.22+'" fill="url(#dots)" opacity=".35"/>';
+ return o}
+function speed(W,H){
+ var o='<rect width="'+W+'" height="'+H+'" fill="#e6ecf8"/>',cx=W/2,cy=H*.5,R=Math.hypot(W,H);
+ for(var i=0;i<48;i++){var a=i/48*Math.PI*2,b=a+.05+((i*37)%5)*.012;
+  o+='<path d="M'+cx+','+cy+'L'+(cx+Math.cos(a)*R)+','+(cy+Math.sin(a)*R)+'L'+(cx+Math.cos(b)*R)+','+(cy+Math.sin(b)*R)+'Z" fill="'+INK+'"/>'}
+ return o+'<ellipse cx="'+cx+'" cy="'+cy+'" rx="'+W*.3+'" ry="'+H*.45+'" fill="#e6ecf8"/>'}
+function dark(W,H){return '<rect width="'+W+'" height="'+H+'" fill="#0d1730"/><rect width="'+W+'" height="'+H+'" fill="url(#dots)" opacity=".18"/>'}
+var BG={
+ estate:function(W,H,p){return city(W,H,p.t||'day',p.seed,p.sc)},
+ court:function(W,H,p){return city(W,H,p.t||'day',p.seed,1.15)+'<rect y="'+H*.92+'" width="'+W+'" height="'+H*.08+'" fill="#3b4a66" '+SW+'/>'},
+ walk:function(W,H,p){return city(W,H,p.t||'day',p.seed,1.5)},
+ room:function(W,H,p){return room(W,H,p.t)},
+ speed:speed,dark:dark};
+function eye(x,m,lk){
+ if(m==='h')return '<path d="M'+(x-8)+',-2Q'+x+',-12 '+(x+8)+',-2" fill="none" stroke="'+INK+'" stroke-width="3.5" stroke-linecap="round"/>';
+ var sh=m==='sh',dn=m==='d',ry=sh?8.5:dn?3.5:6,rx=sh?9:8.5;
+ return '<ellipse cx="'+x+'" cy="-4" rx="'+rx+'" ry="'+ry+'" fill="#fff" stroke="'+INK+'" stroke-width="2.5"/><circle cx="'+(x+lk*2.8)+'" cy="'+(dn?-3:-4)+'" r="'+(sh?2.6:3.6)+'" fill="'+INK+'"/><path d="M'+(x-rx-1)+','+(-4-ry*.5)+'Q'+x+','+(-4-ry-5)+' '+(x+rx+1)+','+(-4-ry*.5)+'" fill="none" stroke="'+INK+'" stroke-width="3" stroke-linecap="round"/>'}
+var BR={n:['M-25,-21Q-16,-25 -7,-22','M7,-22Q16,-25 25,-21'],w:['M-25,-18L-7,-26','M7,-26L25,-18'],a:['M-25,-27L-7,-19','M7,-19L25,-27'],h:['M-25,-24Q-16,-29 -7,-25','M7,-25Q16,-29 25,-24'],s:['M-25,-20H-7','M7,-20H25'],sh:['M-25,-27Q-16,-33 -7,-28','M7,-28Q16,-33 25,-27'],d:['M-25,-19L-7,-25','M7,-25L25,-19']};
+var MO={n:'M-8,32H8',w:'M-8,34Q0,29 8,34',a:'M-10,37Q0,28 10,37',h:'M-11,28Q0,41 11,28',s:'M-7,32H7',d:'M-6,33Q0,31 6,33'};
+function circ(a){return a.map(function(q){return '<circle cx="'+q[0]+'" cy="'+q[1]+'" r="'+q[2]+'" fill="'+INK+'"/>'}).join('')}
+var PRE={ken:'<path d="M-34,6C-34,40 -16,57 0,57C16,57 34,40 34,6C28,24 16,29 0,29C-16,29 -28,24 -34,6Z" fill="'+INK+'"/>'};
+var KUFI='M-36,-30C-36,-64 36,-64 36,-30L36,-26Q0,-33 -36,-26Z';
+var ACC={
+ kal:'<path d="M-34,-34Q0,-46 34,-34L34,-42Q0,-58 -34,-42Z" fill="'+INK+'"/>'+circ([[-28,-49,10],[-14,-59,11],[2,-63,11],[18,-59,11],[30,-48,10],[-33,-38,6],[34,-37,6]]),
+ kas:'<path d="M-37,-30C-37,-72 37,-72 37,-30Q0,-40 -37,-30Z" fill="#d4dcee" '+SW+'/><path d="M-37,-30C-37,-72 37,-72 37,-30Q0,-40 -37,-30Z" fill="url(#stripes)" opacity=".6"/><path d="M-37,-32Q0,-24 58,-34Q58,-45 40,-43Q0,-41 -37,-41Z" fill="'+INK+'"/><circle cx="0" cy="-67" r="4" fill="'+INK+'"/>',
+ ken:circ([[-26,-52,13],[-8,-63,14],[12,-63,14],[28,-52,13],[-35,-38,8],[36,-38,8],[0,-50,12]])+'<circle cx="-38" cy="14" r="3" fill="none" stroke="#e6ecf8" stroke-width="2"/>',
+ nat:'<circle cx="0" cy="-74" r="15" fill="'+INK+'"/><path d="M-36,-30C-36,-68 36,-68 36,-30C28,-46 -28,-46 -36,-30Z" fill="'+INK+'"/>',
+ mer:'<path d="'+KUFI+'" fill="#2e3b5a" '+SW+'/><path d="'+KUFI+'" fill="url(#cross)" opacity=".7"/><circle cx="-15" cy="-4" r="11.5" fill="#fff" fill-opacity=".25" '+SW+'/><circle cx="15" cy="-4" r="11.5" fill="#fff" fill-opacity=".25" '+SW+'/><path d="M-3.5,-4H3.5" '+SW+'/>',
+ tem:'<path d="M-34,-36C-34,-66 34,-66 34,-36C26,-52 -26,-52 -34,-36Z" fill="'+INK+'"/>',
+ pat:'<path d="M-34,-34C-34,-62 34,-62 34,-34C28,-46 -28,-46 -34,-34Z" fill="'+INK+'"/><rect x="-28" y="-12" width="25" height="15" rx="6" fill="'+INK+'"/><rect x="3" y="-12" width="25" height="15" rx="6" fill="'+INK+'"/><path d="M-3,-8H3" '+SW+'/><path d="M-24,-8H-18M8,-8H14" stroke="#8fa0c6" stroke-width="2"/><circle cx="-38" cy="4" r="3.6" fill="#fff" stroke="'+INK+'" stroke-width="1.5"/>',
+ ex1:'<path d="M-35,-30C-35,-66 35,-66 35,-30Q0,-38 -35,-30Z" fill="#5b6a88" '+SW+'/>',
+ ex2:'<path d="M-34,-34C-34,-60 34,-60 34,-34C20,-46 -20,-46 -34,-34Z" fill="'+INK+'"/>'};
+var TOR={
+ kal:'<path d="M-14,77L0,100L14,77" fill="none" '+SW+'/><path d="M-80,160C-80,104 -50,82 -14,77L14,77C50,82 80,104 80,160Z" fill="url(#stripes)"/>',
+ kas:'<path d="M-14,77L-26,102M14,77L26,102M0,100V160" fill="none" '+SW+'/>',
+ ken:'<path d="M-14,77Q0,94 14,77" fill="none" '+SW+'/>',
+ nat:'<path d="M-76,126Q0,94 76,126L80,160H-80Z" fill="#f0f3fb" '+SW+'/>',
+ mer:'<path d="M-14,77V98H14V77M-24,110V160M24,110V160" fill="none" '+SW+'/>',
+ tem:'<path d="M-12,80Q0,112 12,80" fill="none" stroke="'+INK+'" stroke-width="1.6"/><path d="M0,104V120M-5,109H5" fill="none" stroke="'+INK+'" stroke-width="2.4"/>',
+ pat:'<path d="M-14,77L-34,124M14,77L34,124" fill="none" '+SW+'/>'};
+function bust(o,W,H){
+ var k=o.w,m=o.m||'n',sk=SK[k],cl=CL[k],s=o.h*H/220,fl=o.f?-1:1,lk=o.l||0,fs=({kas:1.12,nat:.92})[k]||1;
+ var g='<path d="M-12,40V86H12V40Z" fill="'+sk+'" '+SW+'/>';
+ g+='<path d="M-80,160C-80,104 -50,82 -14,77L14,77C50,82 80,104 80,160Z" fill="'+(k==='nat'?sk:cl)+'" '+SW+'/>'+(TOR[k]||'');
+ var f='<ellipse cx="-35" cy="0" rx="6" ry="10" fill="'+sk+'" '+SW+'/><ellipse cx="35" cy="0" rx="6" ry="10" fill="'+sk+'" '+SW+'/>';
+ f+='<path d="M-34,-34C-34,-66 34,-66 34,-34L34,6C34,34 17,53 0,53C-17,53 -34,34 -34,6Z" fill="'+sk+'" '+SW+'/>';
+ f+='<path d="M10,-62L34,-36V6C34,34 17,53 0,53C9,38 12,20 12,0Z" fill="url(#dots)" opacity=".45"/>';
+ f+=(PRE[k]||'')+'<path d="M3,8Q7,17 0,18" fill="none" stroke="'+INK+'" stroke-width="2.4" stroke-linecap="round"/>';
+ if(k!=='pat')f+=eye(-15,m,lk)+eye(15,m,lk);
+ var br=BR[m]||BR.n;
+ f+='<path d="'+br[0]+'M'+br[1].slice(1)+'" fill="none" stroke="'+INK+'" stroke-width="3.5" stroke-linecap="round"/>';
+ var mc=k==='ken'?'#e6ecf8':INK;
+ if(m==='sh')f+='<ellipse cx="0" cy="34" rx="6" ry="8" fill="#2a1020" stroke="'+mc+'" stroke-width="2.2"/>';
+ else if(o.t&&m==='h')f+='<path d="M-11,28Q0,46 11,28Z" fill="#2a1020" stroke="'+mc+'" stroke-width="2.4"/>';
+ else if(o.t)f+='<ellipse cx="0" cy="33" rx="7" ry="5" fill="#2a1020" stroke="'+mc+'" stroke-width="2.2"/>';
+ else f+='<path d="'+(MO[m]||MO.n)+'" fill="none" stroke="'+mc+'" stroke-width="3" stroke-linecap="round"/>';
+ f+=ACC[k]||'';
+ g+='<g transform="scale('+fs+' 1)">'+f+'</g>';
+ return '<g transform="translate('+o.fx*W+','+o.fy*H+') scale('+s*fl+','+s+')">'+g+'</g>'}
+function prop(q,W,H){
+ var n=q[0],u=q[3]*H/60,G=function(b){return '<g transform="translate('+q[1]*W+','+q[2]*H+') scale('+u+')">'+b+'</g>'};
+ if(n==='notebook')return G('<g transform="rotate(-8)"><rect x="-34" y="-24" width="68" height="48" rx="3" fill="#2a6df4" '+SW+'/><rect x="-24" y="-15" width="40" height="14" fill="#e6ecf8" stroke="'+INK+'" stroke-width="2"/><path d="M-30,-24V24" '+SW+'/></g>');
+ if(n==='envelope')return G('<g transform="rotate(6)"><rect x="-26" y="-34" width="12" height="22" fill="#d7e6d2" stroke="'+INK+'" stroke-width="2"/><rect x="-10" y="-38" width="12" height="26" fill="#d7e6d2" stroke="'+INK+'" stroke-width="2"/><rect x="-34" y="-14" width="68" height="44" fill="#e6d9b0" '+SW+'/><path d="M-34,-14L0,10L34,-14" fill="none" '+SW+'/></g>');
+ if(n==='card')return G('<g transform="rotate(-6)"><rect x="-30" y="-18" width="60" height="36" fill="#f3f6fc" '+SW+'/><path d="M-22,-6H18M-22,4H8" '+SW+'/></g>');
+ if(n==='bus')return G('<rect x="-60" y="-20" width="120" height="36" rx="8" fill="#223052" '+SW+'/><rect x="-50" y="-14" width="20" height="14" fill="#cdd8ee"/><rect x="-22" y="-14" width="20" height="14" fill="#cdd8ee"/><rect x="6" y="-14" width="20" height="14" fill="#cdd8ee"/><rect x="34" y="-14" width="20" height="14" fill="#cdd8ee"/><circle cx="-34" cy="18" r="9" fill="'+INK+'"/><circle cx="34" cy="18" r="9" fill="'+INK+'"/>');
+ if(n==='figure')return G('<circle cy="-18" r="9" fill="#05080f" stroke="#5b6a88" stroke-width="1.5"/><path d="M-18,24C-18,2 -10,-8 0,-8C10,-8 18,2 18,24Z" fill="#05080f" stroke="#5b6a88" stroke-width="1.5"/>');
+ if(n==='broom')return G('<path d="M-6,-40L8,22" stroke="#8a7a5a" stroke-width="4"/><path d="M0,18L22,18L18,34L4,34Z" fill="#c9b27a" '+SW+'/>');
+ return ''}
+window.MG={bust:bust,prop:prop,BG:BG,INK:INK};
+})();
+(function(){
+var c=function(w,m,fx,fy,h,o){return Object.assign({w:w,m:m,fx:fx,fy:fy,h:h},o||{})};
+var one=function(w,m,o){return c(w,m,.5,.68,.85,o)};
+var L=function(w,m,o){return c(w,m,.27,.68,.78,Object.assign({l:1},o))};
+var R=function(w,m,o){return c(w,m,.73,.68,.78,Object.assign({f:1,l:1},o))};
+var LW=function(w,m,o){return c(w,m,.28,.7,.92,Object.assign({l:1},o))};
+var RW=function(w,m,o){return c(w,m,.72,.7,.92,Object.assign({f:1,l:1},o))};
+var s=function(t,x,y,w){return['s',t,x,y,w]},r=function(t,x,y,w){return['sr',t,x,y,w]},f=function(t,x,y,w){return['ph',t,x,y,w]},v=function(t,x,y,w){return['v',t,x,y,w]},X=function(t,x,y,w){return['x',t,x,y,w]};
+var mk=function(bg,t){return function(o){return Object.assign({bg:bg,t:t},o)}};
+var ct=mk('court'),wk=mk('walk'),rm=mk('room'),nr=mk('room','night'),nt=mk('estate','night'),dk=mk('dark'),es=mk('estate');
+var wd=mk('walk','dusk');
+var P=[];
+// COVER
+P.push({l:'Cover',rows:[[132,[{bg:'estate',t:'dusk',seed:12,sc:1.5,cover:1,c:[c('kas','n',.2,.5,.24,{l:1}),c('kal','n',.5,.43,.3),c('ken','d',.8,.5,.24,{f:1,l:1})],ttl:['CONCRETE DREAMS','Episode 1 · Three Brothers','Manga edition · Season 1']}]]]});
+// SCENE 1
+P.push({l:'Scene 1 · The place we call home',rows:[
+[46,[es({seed:3,tag:'Scene 1 · The place we call home|Ext. Kafue C5 Estate — Morning',p:[['bus',.72,.8,.2]],b:[v('People look at where we come from and think they already know our story. They see these buildings, these streets, these courts. They see young people sitting around and think we have no direction.',3,17,58)]})]],
+[32,[
+ es({seed:5,sc:1.3,c:[c('ex1','h',.3,.7,.8,{l:1}),c('ex2','h',.74,.7,.8,{f:1,l:1})],b:[s('Bwanji!',4,10,36),r('Ndili bwino!',56,10,38)]}),
+ es({seed:9,p:[['bus',.5,.78,.34]],b:[X('VROOOM',18,12,70)],cap:'A minibus passes.'}),
+ es({seed:11,sc:1.3,c:[c('ex2','n',.4,.72,.85)],p:[['broom',.7,.7,.5]],cap:'Someone sweeping outside a building.'})]],
+[30,[es({t:'dusk',seed:5,c:[c('kal','n',.82,.78,.9,{l:-1})],b:[v('But everybody here has a dream. Everybody wants something better. The problem is that sometimes, when you’re desperate to change your life, you start making decisions you can’t take back.',3,8,66)]})]],
+[20,[dk({ttl:['CONCRETE DREAMS','Episode 1 · Three Brothers']})]]]});
+// SCENE 2
+P.push({l:'Scene 2 · The dreamer',rows:[
+[38,[rm({tag:'Scene 2 · The dreamer|Int. Available house — Morning',c:[c('kal','n',.35,.62,.95)],p:[['notebook',.74,.84,.22]],cap:'He writes something, reads it and crosses out a line.'})]],
+[26,[dk({ph:{n:'Phone',m:['No new messages.']},cap:'He looks at his phone. Nothing.'}),rm({c:[one('kal','n',{})],b:[X('RING!!',50,10,40)],cap:'His phone rings.'})]],
+[32,[
+ rm({c:[one('kal','n',{t:1,f:1})],b:[f('Kaluba, where are you?',4,5,52),s('At home. What’s happening?',44,34,52)]}),
+ rm({c:[one('kal','w',{t:1})],b:[f('Come outside. We need to talk.',4,5,56),s('About what?',50,36,40)]})]],
+[30,[
+ rm({c:[one('kal','w',{t:1})],b:[f('Just come, boss. Don’t ask too many questions.',6,4,88),s('Okay, I’m coming.',8,34,50)]}),
+ rm({p:[['notebook',.5,.55,.5]],cap:'Before leaving, he looks at it one more time.'})]]]});
+// SCENE 3
+P.push({l:'Scene 3 · The three friends',rows:[
+[36,[ct({tag:'Scene 3 · The three friends|Ext. C5 estate court — Late morning',c:[L('kas','n',{}),R('ken','h',{t:1})],b:[r('Aah, look who has finally arrived!',50,17,44)],cap:'Kasasa scrolls through his phone. Kennedy watches people pass. Kaluba approaches.'})]],
+[36,[ct({c:[one('kal','n',{t:1})],b:[s('You people called me like someone had died.',8,6,70)]}),ct({c:[one('kas','n',{t:1})],b:[r('Sit down first.',20,8,60)]})]],
+[36,[
+ ct({c:[L('kal','n',{}),R('kas','d',{t:1})],b:[s('So what’s happening?',3,6,44),r('I’m tired, bro.',54,6,40)]}),
+ ct({c:[one('kas','a',{t:1})],b:[s('Everything. Same streets, same problems, same stories every day. We wake up, look for money, fail, then come back here and pretend everything is fine.',5,3,90)]})]],
+[30,[ct({c:[LW('ken','h',{t:1}),RW('kas','a',{t:1})],b:[s('That’s life, my brother. We are all trying.',3,6,45),r('No. We are not trying hard enough.',53,6,43)]})]]]});
+P.push({l:'Scene 3 · The three friends',rows:[
+[34,[ct({c:[one('kal','n',{t:1})],b:[s('What do you want us to do?',10,6,64)]}),ct({c:[one('kas','a',{t:1})],b:[r('Find a way to make money. Real money.',12,6,76)]})]],
+[34,[ct({c:[one('ken','w',{t:1})],b:[s('And where is this money coming from?',8,6,72)]}),ct({c:[one('kas','n',{t:1})],b:[r('I met someone. A businessman. Someone who knows people.',6,5,88)]})]],
+[32,[ct({c:[LW('ken','w',{t:1}),RW('kas','a',{t:1})],b:[s('What kind of business? Because I don’t want problems.',3,6,44),r('Iwe Kennedy, you worry too much.',54,6,40)]})]],
+[34,[ct({c:[one('kal','n',{t:1})],b:[s('Then make sure you understand what you’re getting into.',8,5,84)]}),ct({c:[one('kas','h',{t:1})],b:[r('You see? That’s why I called you. At least you understand.',6,5,88)]})]],
+[34,[ct({c:[one('kas','n',{t:1,f:1})],b:[r('Tomorrow things might change. Remember I told you.',8,5,84)],cap:'Kasasa stands and walks away.'}),ct({c:[L('kal','w',{t:1}),R('ken','w',{t:1})],b:[s('What’s wrong with him?',3,5,44),r('I don’t know. But something has changed.',54,5,42)]})]]]});
+// SCENE 4
+P.push({l:'Scene 4 · A friend’s warning',rows:[
+[34,[wk({tag:'Scene 4 · A friend’s warning|Ext. Estate walkway — Afternoon',c:[LW('nat','n',{t:1}),RW('kal','h',{t:1})],b:[s('You are always walking around with that notebook.',3,17,46),r('One day you’ll see why.',54,17,40)]})]],
+[30,[wk({c:[one('nat','n',{t:1})],b:[s('Have you seen Kasasa?',12,6,70)]}),wk({c:[one('kal','n',{t:1})],b:[r('I was with him this morning. Why?',10,6,76)]})]],
+[34,[wk({c:[one('nat','w',{t:1})],b:[s('I saw him with Patrick yesterday. They were talking to someone I don’t know.',5,4,90)]}),wk({c:[one('kal','n',{t:1})],b:[r('Patrick? Maybe it’s work. You people have started investigating Kasasa now?',5,4,90)]})]]]});
+P.push({l:'Scene 4 · A friend’s warning',rows:[
+[36,[wk({c:[LW('nat','a',{t:1}),RW('kal','w',{})],b:[s('Laugh, laugh. But listen. Sometimes the people who promise you a better life are the same people who bring you trouble.',3,5,56)]})]],
+[30,[wk({c:[one('kal','w',{t:1})],b:[s('I’ll talk to him.',15,8,60)]}),wk({c:[one('nat','n',{t:1})],b:[r('Please do. Don’t let your friends make decisions for you.',6,5,88)]})]],
+[30,[wk({c:[LW('kal','n',{t:1}),RW('nat','h',{t:1})],b:[s('I have my own plans. I know where I’m going.',3,6,42),r('Good. Make sure you don’t lose that direction.',54,6,42)]})]]]});
+window.MGD=P;window.MGH={c:c,one:one,L:L,R:R,LW:LW,RW:RW,s:s,r:r,f:f,v:v,X:X,ct:ct,wk:wk,wd:wd,rm:rm,nr:nr,nt:nt,dk:dk,es:es};
+})();
+(function(){
+var H=window.MGH,P=window.MGD;
+var c=H.c,one=H.one,L=H.L,R=H.R,LW=H.LW,RW=H.RW,s=H.s,r=H.r,X=H.X,ct=H.ct,wk=H.wk,wd=H.wd,nr=H.nr,dk=H.dk;
+// SCENE 5
+P.push({l:'Scene 5 · The contact',rows:[
+[34,[ct({tag:'Scene 5 · The contact|Ext. Another court — Afternoon',c:[LW('pat','h',{t:1}),RW('kas','n',{t:1})],b:[s('Kasasa! You came early?',3,17,40),r('I’ve been waiting. Where is the man?',54,17,40)]})]],
+[34,[ct({c:[one('pat','n',{t:1})],b:[s('He is coming. Relax. The man doesn’t waste time with people.',6,5,88)]}),ct({c:[one('kas','a',{t:1})],b:[r('What exactly does he want me to do?',8,5,84)]})]],
+[32,[ct({c:[LW('pat','n',{t:1}),RW('kas','n',{})],b:[s('You’ll hear it from him. There he is.',3,6,40)],cap:'Mr. Tembo enters the court from the walkway.'})]],
+[40,[ct({c:[one('tem','s',{t:1})],b:[s('Kasasa? Patrick tells me you’re looking for an opportunity.',6,5,88)]})]]]});
+P.push({l:'Scene 5 · The contact',rows:[
+[34,[ct({c:[one('kas','n',{t:1})],b:[s('Yes, sir. I’m ready to work.',10,6,70)]}),ct({c:[one('tem','s',{t:1})],b:[r('Everybody says that. The question is, how serious are you?',6,5,88)]})]],
+[34,[ct({c:[one('kas','a',{t:1})],b:[s('I want money. I want to support myself. I want to stop depending on people.',5,4,90)]}),ct({c:[one('tem','h',{})],b:[r('Good answer.',20,8,56)]})]],
+[34,[ct({c:[one('tem','s',{t:1})],b:[s('There are things we can discuss. But first, I need to know whether you can keep information private.',5,4,90)]}),ct({c:[L('kas','n',{t:1}),R('tem','s',{t:1})],b:[s('I can.',4,6,30),r('Don’t be too quick to answer.',50,6,46)]})]]]});
+P.push({l:'Scene 5 · The contact',rows:[
+[34,[ct({c:[one('tem','n',{t:1})],p:[['card',.82,.8,.3]],b:[s('Come and see me tomorrow. We will talk properly. The details are there.',5,4,90)]}),ct({c:[one('tem','s',{t:1,f:1})],b:[r('And Kasasa? Don’t involve your friends in everything.',5,4,90)],cap:'Mr. Tembo walks away.'})]],
+[30,[ct({c:[LW('kas','d',{}),RW('pat','h',{t:1})],p:[['card',.5,.8,.3]],b:[r('I told you.',56,8,34)],cap:'Kasasa looks at the card.'})]]]});
+// SCENE 6
+P.push({l:'Scene 6 · Something is changing',rows:[
+[34,[ct({tag:'Scene 6 · Something is changing|Ext. C5 estate court — Late afternoon',c:[LW('mer','n',{t:1}),RW('ken','n',{})],b:[s('Have you noticed Kasasa lately?',3,17,40),r('What about him?',56,17,36)]})]],
+[34,[ct({c:[one('mer','w',{t:1})],b:[s('He’s moving differently. Yesterday he was asking people for money. Today he’s acting like he’s already rich.',5,4,90)]}),ct({c:[one('ken','h',{t:1})],b:[r('Maybe he’s found a job.',12,8,70)]})]],
+[34,[ct({c:[one('mer','n',{t:1})],b:[s('I hope so. But I heard he’s moving around with Patrick.',6,5,88)]}),ct({c:[one('ken','sh',{t:1})],b:[r('Patrick?',30,8,40)]})]],
+[30,[ct({c:[LW('mer','n',{t:1}),RW('ken','d',{t:1})],b:[s('Yes. Do you know him?',3,6,38),r('I know of him.',58,6,34)]})]],
+[34,[ct({c:[one('mer','a',{t:1})],b:[s('Then talk to your friend. Just don’t wait until something bad happens.',5,4,90)],cap:'Mercy leaves.'}),dk({ph:{n:'Kasasa',me:['We need to talk—']},cap:'Kennedy starts typing a message, then deletes it.'})]]]});
+// SCENE 7
+P.push({l:'Scene 7 · The house',rows:[
+[34,[nr({tag:'Scene 7 · The house|Int. Available house — Evening',c:[LW('kal','h',{t:1}),RW('ken','d',{t:1})],b:[s('You look like someone has stolen your money.',3,17,44),r('I’m serious, Kaluba.',56,17,36)]})]],
+[34,[nr({c:[L('ken','w',{t:1}),R('kal','n',{t:1})],b:[s('It’s about Kasasa.',3,5,44),r('Again?',60,5,30)]}),nr({c:[one('ken','w',{t:1})],b:[s('I don’t trust Patrick. I’ve heard things about him.',6,5,88)]})]],
+[34,[nr({c:[LW('kal','a',{t:1}),RW('ken','d',{t:1})],b:[s('Why? What things? Then how do you expect me to believe you?',3,6,46),r('I’m not asking you to believe everything. I’m asking you to be careful.',54,6,42)]})]]]});
+P.push({l:'Scene 7 · The house',rows:[
+[34,[nr({c:[one('kal','n',{t:1})],b:[s('Kasasa is our friend. If he’s making a mistake, we talk to him.',5,4,90)]}),nr({c:[one('ken','d',{t:1})],b:[r('And if he refuses to listen?',10,6,76)]})]],
+[30,[nr({c:[LW('kal','n',{t:1}),RW('ken','d',{t:1})],b:[s('Then we try again.',3,6,40),r('I hope you’re right.',58,6,34)]})]]]});
+// SCENE 8
+P.push({l:'Scene 8 · The first secret',rows:[
+[34,[dk({tag:'Scene 8 · The first secret|Ext. Quiet estate walkway — Evening',ph:{n:'Mr. Tembo',m:['Tomorrow. Don’t be late. Come alone.']}}),dk({ph:{n:'Mr. Tembo',m:['Tomorrow. Don’t be late. Come alone.'],me:['Understood.']},cap:'Kasasa sends his reply.'})]],
+[34,[wd({c:[LW('pat','n',{t:1}),RW('kas','n',{t:1})],b:[s('Everything is okay? He said tomorrow?',3,6,44),r('Yes. He wants me to come alone.',54,6,40)]})]],
+[34,[wd({c:[one('pat','n',{t:1})],b:[s('Good. Just follow instructions.',12,6,70)]}),wd({c:[one('kas','w',{t:1})],b:[r('Patrick, what exactly are these people involved in?',6,5,88)]})]],
+[34,[wd({c:[one('pat','a',{t:1})],b:[s('You wanted an opportunity. Now you’re asking questions? You’ll understand when the time is right.',5,4,90)],cap:'Patrick walks away.'}),wd({c:[c('kas','w',.5,.72,1.15,{l:-1})],cap:'For the first time, he looks uncertain.'})]]]});
+// SCENE 9
+P.push({l:'Scene 9 · The friendship',rows:[
+[36,[ct({tag:'Scene 9 · The friendship|Ext. C5 estate court — Next morning',c:[c('kal','n',.2,.68,.85,{t:1}),c('kas','n',.5,.68,.85,{t:1}),c('ken','n',.8,.68,.85,{f:1,t:1})],b:[s('Where were you yesterday?',2,17,28),r('Around.',38,17,24),r('Around where?',68,17,28)]})]],
+[34,[ct({c:[one('kas','a',{t:1})],b:[s('Why are you two questioning me like police officers?',5,4,90)]}),ct({c:[one('kal','w',{t:1})],b:[r('We are your friends.',14,8,68)]})]],
+[34,[ct({c:[one('kas','a',{t:1})],b:[s('Then act like friends. Support me.',8,5,84)]}),ct({c:[one('ken','n',{t:1})],b:[r('We support you. We just don’t want you getting into trouble.',5,4,90)]})]],
+[34,[ct({c:[LW('kas','a',{t:1}),RW('kal','w',{t:1})],b:[s('You know what? Sometimes I feel like you people are comfortable with struggling.',3,6,46),r('That’s not true.',58,6,32)]})]]]});
+P.push({l:'Scene 9 · The friendship',rows:[
+[34,[ct({c:[one('kal','w',{t:1})],b:[s('Kasasa, listen. We want to see you succeed. But don’t let money become more important than your life.',5,4,90)]}),ct({c:[one('kas','n',{t:1})],b:[r('I have a meeting today. After that, things will make sense.',5,4,90)]})]],
+[36,[{bg:'speed',c:[LW('ken','n',{t:1}),RW('kas','sh',{t:1})],b:[s('With Tembo?',3,6,28),r('How do you know that name?',58,6,36)]}]],
+[34,[ct({c:[L('ken','d',{}),R('kas','a',{t:1})],b:[r('Exactly. You don’t know anything. Stop interfering.',34,5,62)],cap:'Kennedy says nothing.'}),ct({c:[L('kal','a',{t:1}),R('ken','d',{t:1})],b:[s('How did you know his name?',3,5,46),r('I’ll explain later.',56,5,40)]})]]]});
+// SCENE 10
+P.push({l:'Scene 10 · Natasha and Kaluba',rows:[
+[34,[wk({tag:'Scene 10 · Natasha and Kaluba|Ext. Estate street — Day',c:[LW('nat','n',{t:1}),RW('kal','n',{t:1})],b:[s('You look stressed.',3,17,34),r('I’m fine.',60,17,28)]})]],
+[34,[wk({c:[one('kal','w',{t:1})],b:[s('Kasasa is becoming difficult.',8,6,76)]}),wk({c:[one('nat','n',{t:1})],b:[r('You can’t save everybody, Kaluba. And what about your own future?',5,4,90)]})]],
+[34,[wk({c:[one('kal','d',{t:1})],b:[s('I’m still working on it. Sometimes I feel like I’m moving too slowly.',5,4,90)]}),wk({c:[one('nat','h',{t:1})],b:[r('Slow progress is still progress.',10,6,78)]})]],
+[30,[wk({c:[LW('kal','h',{t:1}),RW('nat','h',{t:1})],b:[s('You should start giving motivational speeches.',3,6,44),r('Pay me first.',58,6,30)]})]]]});
+})();
+(function(){
+var H=window.MGH,P=window.MGD;
+var c=H.c,one=H.one,L=H.L,R=H.R,LW=H.LW,RW=H.RW,s=H.s,r=H.r,f=H.f,X=H.X,ct=H.ct,wk=H.wk,wd=H.wd,nr=H.nr,nt=H.nt,dk=H.dk;
+// SCENE 11
+P.push({l:'Scene 11 · The meeting',rows:[
+[34,[ct({tag:'Scene 11 · The meeting|Ext. Quiet court — Afternoon',c:[LW('tem','s',{t:1}),RW('kas','d',{t:1})],b:[s('You’re late. I don’t like excuses.',3,17,44),r('Sorry, sir.',58,17,30)]})]],
+[34,[ct({c:[one('tem','s',{t:1})],b:[s('Do your friends know you’re here?',8,5,84)]}),ct({c:[L('kas','n',{t:1}),R('tem','h',{t:1})],b:[s('No.',6,5,22),r('Good.',64,5,26)]})]],
+[34,[ct({c:[one('tem','n',{t:1})],p:[['envelope',.5,.84,.3]],b:[s('Your first opportunity.',14,5,72)],cap:'He hands Kasasa a small envelope.'}),ct({c:[one('kas','sh',{})],p:[['envelope',.5,.9,.3]],cap:'Kasasa opens it slightly and sees money.'})]],
+[38,[ct({c:[LW('kas','n',{t:1}),RW('tem','s',{t:1})],b:[s('Sir, what do I have to do?',3,6,34),r('Nothing complicated. I need someone I can trust. If you want to move forward, you must learn when to speak and when to remain silent.',40,5,56)]})]]]});
+P.push({l:'Scene 11 · The meeting',rows:[
+[34,[ct({c:[one('tem','a',{t:1})],b:[s('No. You don’t understand yet. I’ll contact you.',8,5,84)],cap:'Mr. Tembo leaves.'}),dk({ph:{n:'Kaluba',m:['Incoming call…']},b:[X('BZZT',6,8,36)],cap:'He watches the phone ring but doesn’t answer.'})]]]});
+// SCENE 12 + 13
+P.push({l:'Scenes 12–13 · The message',rows:[
+[36,[dk({tag:'Scene 12 · The message|Ext. C5 estate court — Late afternoon',ph:{n:'Unknown number',m:['Tell your friend to stay away from Tembo. This is your last warning.']}}),dk({ph:{n:'Unknown number',m:['Tell your friend to stay away from Tembo. This is your last warning.','You know what happened last time.']}})]],
+[30,[ct({c:[c('ken','sh',.5,.7,1.1,{})],cap:'Kennedy freezes. He looks around. He locks his phone.'})]],
+[34,[wd({tag:'Scene 13 · The confrontation|Ext. Estate walkway — Evening',c:[LW('ken','w',{t:1}),RW('kal','n',{t:1})],b:[s('We need to talk. I received a message.',3,17,46),r('From who? What did it say?',54,17,40)]})]],
+[34,[wd({c:[one('kal','sh',{t:1})],b:[s('What happened last time?',12,6,70)]}),wd({c:[one('ken','d',{t:1})],b:[r('I knew someone who worked with people like Tembo. I can’t talk about it here.',4,4,92)]})]]]});
+P.push({l:'Scene 13 · The confrontation',rows:[
+[34,[wd({c:[one('kal','w',{t:1})],b:[s('Kennedy, you’re starting to scare me.',8,5,84)]}),wd({c:[one('ken','w',{t:1})],b:[r('Just promise me. Don’t let Kasasa go any further.',5,4,90)]})]],
+[28,[wd({c:[one('kal','n',{t:1})],b:[s('I’ll talk to him.',16,8,56)]})]]]});
+// SCENE 14
+P.push({l:'Scene 14 · No turning back',rows:[
+[40,[nt({tag:'Scene 14 · No turning back|Ext. C5 estate street — Night',c:[c('kas','n',.5,.68,.85,{l:1})],p:[['envelope',.78,.84,.22]],cap:'Kasasa walks alone, holding the envelope inside his jacket.'})]],
+[34,[dk({ph:{n:'Mr. Tembo',m:['Good work today. We will speak soon.']}}),dk({ph:{n:'Kaluba',m:['We need to talk. It’s important.'],me:['Tomorrow.']},cap:'Kasasa looks at it. He types: Tomorrow.'})]],
+[30,[nt({c:[c('kas','d',.3,.7,.9,{l:1})],b:[s('Tomorrow.',50,12,24)],cap:'He sends it and continues walking.'})]]]});
+// SCENE 15
+P.push({l:'Scene 15 · The final warning',rows:[
+[34,[nr({tag:'Scene 15 · The final warning|Int. Available house — Night',c:[LW('kal','n',{t:1}),RW('ken','d',{t:1})],b:[s('Did you find out anything?',3,17,42),r('Not yet.',62,17,26)]})]],
+[34,[nr({c:[one('kal','a',{t:1})],b:[s('We can’t keep doing this. Kasasa is our friend. We need to tell him everything.',4,4,92)]}),nr({c:[one('ken','w',{t:1})],b:[r('What if telling him makes things worse?',8,5,84)]})]],
+[34,[nr({c:[one('kal','n',{t:1})],b:[s('Then we face it together.',10,6,76)]}),nr({c:[one('ken','d',{t:1})],b:[r('You still believe friendship can solve everything.',5,5,90)]})]],
+[34,[nr({c:[one('kal','n',{t:1})],b:[s('It has to mean something.',10,6,76)]}),nr({c:[one('ken','d',{t:1})],b:[r('Sometimes the people closest to you are the ones who hurt you the most.',4,4,92)]})]],
+[36,[nr({c:[c('kal','a',.5,.7,1.15,{t:1})],p:[['notebook',.82,.88,.2]],b:[s('I’m not giving up on him.',18,6,64)],cap:'Kaluba closes his notebook.'})]]]});
+// SCENE 16
+P.push({l:'Scene 16 · The cliffhanger',rows:[
+[34,[nt({tag:'Scene 16 · The cliffhanger|Ext. C5 estate court — Night',c:[c('ken','n',.5,.7,.85,{})],b:[X('RING!',52,22,40)],cap:'Unknown number.'}),nt({c:[c('ken','sh',.5,.7,.85,{t:1})],b:[f('We warned you.',10,6,76),r('Who is this?',44,38,48)]})]],
+[34,[nt({c:[one('ken','w',{t:1})],b:[f('Tell Kaluba to stop asking questions.',5,4,90),s('What do you want from us?',8,34,60)]}),nt({c:[one('ken','d',{})],b:[f('You already know what happened. Don’t make us remind you.',5,4,90)],cap:'The call ends.'})]],
+[36,[nt({c:[c('ken','sh',.25,.74,.7,{l:1})],p:[['figure',.85,.6,.3]],cap:'A figure stands at a distance. The figure turns and walks away. Kennedy takes a step forward but stops.'})]]]});
+P.push({l:'Scene 16 · The cliffhanger',rows:[
+[34,[nr({c:[one('kal','d',{})],p:[['notebook',.75,.88,.18]],cap:'Kaluba writes one final line. His phone vibrates.'}),dk({ph:{n:'Unknown number',m:['Your friend is hiding something from you.']}})]],
+[36,[nr({c:[c('kal','sh',.5,.7,1.1,{t:1})],b:[s('Kennedy... what have you done?',12,6,76)]})]],
+[30,[dk({ttl:['END OF EPISODE 1','Next · Episode 2 · Fast Money']})]]]});
+})();
+
+(function(){
+var G=window.MG,N=0;
+function esc(t){return String(t).replace(/&/g,'&amp;').replace(/</g,'&lt;')}
+function phone(p){
+ var h='<div class="phone"><div class="who">'+esc(p.n)+'</div>';
+ (p.m||[]).forEach(function(t){h+='<div class="msg">'+esc(t)+'</div>'});
+ (p.me||[]).forEach(function(t){h+='<div class="msg me">'+esc(t)+'</div>'});
+ return h+'</div>'}
+function panel(p,pw,rh){
+ var W=Math.round(pw*10),H=Math.round(rh*10);
+ p.seed=p.seed||(N++*7+3);
+ var art=(G.BG[p.bg]||G.BG.estate)(W,H,p);
+ (p.c||[]).forEach(function(q){art+=G.bust(q,W,H)});
+ (p.p||[]).forEach(function(q){art+=G.prop(q,W,H)});
+ var h='<svg class="art" viewBox="0 0 '+W+' '+H+'" preserveAspectRatio="xMidYMid slice" aria-hidden="true">'+art+'</svg>';
+ if(p.ph)h+=phone(p.ph);
+ if(p.cover)h+='<div class="top">A film by Colpo Records and Levte Innovations</div>';
+ if(p.ttl)h+='<div class="ttl'+(p.cover?' low':'')+'"><b>'+esc(p.ttl[0])+'</b><i>'+esc(p.ttl[1])+'</i>'+(p.ttl[2]?'<u>'+esc(p.ttl[2])+'</u>':'')+'</div>';
+ if(p.tag){var t=p.tag.split('|');h+='<div class="tag">'+esc(t[0])+(t[1]?'<small>'+esc(t[1])+'</small>':'')+'</div>'}
+ (p.b||[]).forEach(function(b){h+='<div class="b '+b[0]+'" style="left:'+b[2]+'%;top:'+b[3]+'%;width:'+b[4]+'%">'+esc(b[1])+'</div>'});
+ if(p.cap)h+='<div class="cap">'+esc(p.cap)+'</div>';
+ return '<div class="panel" style="--w:'+(p.w||1)+';--par:'+(pw/rh).toFixed(3)+'">'+h+'</div>'}
+function page(pg,i,n){
+ var rows=pg.rows.map(function(rw){
+  var rh=rw[0],ps=rw[1];if(ps.length===1&&!ps[0].ttl&&!ps[0].cover)rh=Math.max(rh,46);var sum=ps.reduce(function(a,p){return a+(p.w||1)},0);
+  return '<div class="row" style="--ar:'+(100/rh).toFixed(3)+'">'+ps.map(function(p){return panel(p,100*(p.w||1)/sum,rh)}).join('')+'</div>'}).join('');
+ return '<section class="pg"><div class="page">'+rows+'</div><div class="lbl"><span>'+esc(pg.l)+'</span><span>Page '+(i+1)+' of '+n+'</span></div></section>'}
+var P=window.MGD;
+document.getElementById('reader').innerHTML=P.map(function(pg,i){return page(pg,i,P.length)}).join('')+'<p class="foot">Concrete Dreams, Season 1, Episode 1 “Three Brothers”. Written by Micheal Tembo, Clever Sakala and Blessing Bwalya. A film by Colpo Records and Levte Innovations. Manga adaptation with original illustrated character designs.</p>';
+})();
+</script>
+
+
+<style id="manga-upgrade">
+:root{--ground:#070b14;--paper:#eef2fb;--ink:#07101f;--blue:#397bff;--gold:#f4bd32;--mist:#c4cee2;--ui:'Poppins',system-ui,sans-serif;scroll-behavior:smooth}
+*{box-sizing:border-box}
+body{padding:0 0 100px!important;background:radial-gradient(ellipse at 50% -15%,#1c2b4c 0,#0b1220 46%,#070b14 100%)!important;color:#e8eefb!important}
+.reader-shell{width:min(100%,1000px);margin:0 auto;padding:0 14px}
+.reader-head{position:sticky;top:0;z-index:20;margin:0 -14px 22px;padding:12px max(18px,calc((100vw - 972px)/2));background:#080e1beF;border-bottom:1px solid #ffffff18;backdrop-filter:blur(18px);box-shadow:0 8px 24px #0005}
+.head-line{display:flex;align-items:center;justify-content:space-between;gap:14px}
+.brand{display:flex;align-items:center;gap:11px;min-width:0}
+.brand-mark{width:38px;height:38px;display:grid;place-items:center;border:1px solid #f4bd3277;background:linear-gradient(145deg,#244b91,#101b32);border-radius:11px;color:#f4bd32;font:28px/1 Impact,sans-serif;box-shadow:inset 0 0 18px #397bff33}
+.brand-copy{min-width:0}.brand-copy strong{display:block;color:#f5f7fc;font:700 13px/1.2 var(--ui);letter-spacing:.14em}.brand-copy span{display:block;color:#95a5c3;font:500 10px/1.4 var(--ui);letter-spacing:.12em;text-transform:uppercase;margin-top:3px}
+.head-actions{display:flex;gap:7px;align-items:center}.tool-btn,.nav-btn{border:1px solid #ffffff24;background:#111d32;color:#eaf0fc;border-radius:10px;padding:9px 12px;font:600 11px var(--ui);cursor:pointer;min-height:38px}.tool-btn:active,.nav-btn:active{transform:scale(.97)}.tool-btn:hover,.nav-btn:hover{border-color:#f4bd32aa;background:#192a48}.tool-btn[aria-pressed="true"]{background:#284b88;border-color:#6d9cff}
+.hero{position:relative;overflow:hidden;margin:18px auto 26px;padding:clamp(22px,5vw,42px);border:1px solid #ffffff20;border-radius:20px;background:linear-gradient(115deg,#111d35ee,#14284aee 58%,#101a2d);box-shadow:0 18px 48px #0005}
+.hero:after{content:'CD';position:absolute;right:-10px;bottom:-55px;font:clamp(150px,30vw,270px)/1 Impact,sans-serif;color:#ffffff08;pointer-events:none}
+.eyebrow{font:600 10px var(--ui);letter-spacing:.25em;text-transform:uppercase;color:#f4bd32}.hero h1{position:relative;z-index:1;margin:9px 0 6px;color:#f5f7fc;font:clamp(40px,9vw,78px)/.92 Impact,'Bangers',sans-serif;letter-spacing:.025em;text-shadow:3px 4px 0 #061126}.hero h1 span{color:#f4bd32}.hero-sub{position:relative;z-index:1;color:#c1cde2;font:600 12px var(--ui);letter-spacing:.16em;text-transform:uppercase}.hero-meta{position:relative;z-index:1;display:flex;flex-wrap:wrap;gap:8px;margin-top:18px}.hero-meta span{border:1px solid #ffffff24;background:#ffffff0b;border-radius:99px;padding:7px 11px;color:#dce5f5;font:500 10px var(--ui)}.hero-note{position:relative;z-index:1;max-width:570px;margin:17px 0 0;color:#b4c2da;font:13px/1.7 var(--ui)}
+.reader-status{display:flex;justify-content:space-between;align-items:center;gap:10px;margin:0 auto 12px;max-width:780px;color:#9eacc5;font:600 10px var(--ui);letter-spacing:.12em;text-transform:uppercase}.progress-track{height:3px;max-width:780px;margin:0 auto 20px;border-radius:10px;background:#ffffff18;overflow:hidden}.progress-fill{height:100%;width:0;background:linear-gradient(90deg,#397bff,#f4bd32);transition:width .18s ease}
+.pg{width:min(100%,780px);scroll-margin-top:95px;margin:0 auto 24px!important}.page{border-radius:3px;box-shadow:0 15px 45px #0008,0 0 0 1px #ffffff20;padding:clamp(6px,1.4vw,12px)!important;gap:clamp(5px,1vw,9px)!important}.row{gap:clamp(5px,1vw,9px)!important}.panel{border-width:2px!important;box-shadow:0 2px 0 #ffffff20 inset}.b{box-shadow:0 2px 0 #07101f1c;font-size:clamp(11px,3.5cqw,17px)!important;line-height:1.24!important}.b.s,.b.sr,.b.ph{box-shadow:0 3px 0 #07101f20}.b.v{box-shadow:4px 4px 0 #07101f}.tag{box-shadow:3px 3px 0 #07101f55}.cap{max-width:88%;box-shadow:3px -3px 0 #07101f33}.lbl{padding:10px 4px 18px!important;color:#9eacc5!important;font-size:10px!important}.foot{max-width:780px;margin:28px auto!important;padding:18px 12px;border-top:1px solid #ffffff1c;color:#8797b4!important;font-size:11px!important}
+.reader-dock{position:fixed;z-index:30;left:0;right:0;bottom:0;padding:10px max(12px,calc((100vw - 780px)/2));padding-bottom:max(10px,env(safe-area-inset-bottom));background:#080e1bf2;border-top:1px solid #ffffff20;backdrop-filter:blur(18px)}
+.dock-inner{display:flex;align-items:center;gap:8px;max-width:780px;margin:auto}.nav-btn{flex:0 0 auto;min-width:76px}.nav-btn.primary{background:#2459b5;border-color:#4b83e6}.nav-btn:disabled{opacity:.35;cursor:not-allowed}.page-picker{min-width:0;flex:1;background:#111d32;color:#eaf0fc;border:1px solid #ffffff24;border-radius:10px;padding:10px 8px;font:600 11px var(--ui);outline:none}.page-picker:focus,.tool-btn:focus-visible,.nav-btn:focus-visible{outline:2px solid #f4bd32;outline-offset:2px}
+body.focus-mode .reader-head,body.focus-mode .hero,body.focus-mode .reader-status,body.focus-mode .progress-track,body.focus-mode .foot{display:none!important}body.focus-mode{padding-top:12px!important}body.focus-mode .pg{scroll-margin-top:12px}
+body.warm-mode{--paper:#f4ead7;--mist:#d7c6a8}body.warm-mode .page{background:#f4ead7}
+@media(max-width:640px){.reader-shell{padding:0 7px}.reader-head{margin:0 -7px 14px;padding:10px 12px}.brand-mark{width:34px;height:34px}.brand-copy strong{font-size:11px}.brand-copy span{font-size:8px}.head-actions{gap:5px}.tool-btn{padding:8px 9px;min-height:34px;font-size:10px}.hero{border-radius:14px;margin:13px auto 20px;padding:22px 18px}.hero h1{font-size:clamp(42px,13vw,66px)}.hero-note{font-size:12px}.pg{margin-bottom:19px!important}.page{padding:5px!important}.row{gap:5px!important}.panel{border-width:2px!important}.lbl{font-size:9px!important}.dock-inner{gap:6px}.nav-btn{min-width:58px;padding:9px 7px;font-size:10px}.page-picker{font-size:10px;padding:10px 5px}}
+@media(prefers-reduced-motion:reduce){:root{scroll-behavior:auto}*,*:before,*:after{transition:none!important}}
+</style>
+<script id="reader-upgrade">
+(function(){
+  const reader=document.getElementById('reader');
+  if(!reader)return;
+  const pages=[...reader.querySelectorAll('.pg')];
+  const total=pages.length;
+  const safe=(s)=>String(s||'').replace(/[&<>"']/g,ch=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[ch]));
+  const sceneName=(pg,i)=>{const label=pg.querySelector('.lbl span')?.textContent||`Page ${i+1}`;return label.replace(/\s+/g,' ').trim()};
+  const options=pages.map((pg,i)=>`<option value="${i}">${safe(sceneName(pg,i))}</option>`).join('');
+  const shell=document.createElement('div');shell.className='reader-shell';
+  shell.innerHTML=`
+    <header class="reader-head"><div class="head-line">
+      <div class="brand"><div class="brand-mark">C</div><div class="brand-copy"><strong>CONCRETE DREAMS</strong><span>Official digital manga · Season 1</span></div></div>
+      <div class="head-actions"><button class="tool-btn" id="focusToggle" aria-pressed="false" title="Hide interface">Focus</button><button class="tool-btn" id="themeToggle" aria-pressed="false" title="Change page tone">Tone</button><button class="tool-btn" id="fullToggle" title="Enter fullscreen">⛶</button></div>
+    </div></header>
+    <section class="hero" aria-label="Manga introduction"><div class="eyebrow">A Zambian crime drama · Manga edition</div><h1>CONCRETE <span>DREAMS</span></h1><div class="hero-sub">Season 1 · Episode 1 · Three Brothers</div><div class="hero-meta"><span>Crime / Drama / Thriller</span><span>Kafue C5 Estate, Zambia</span><span>English · Nyanja · Bemba</span></div><p class="hero-note">Three friends. One neighbourhood. Different dreams. When the promise of a better life brings danger closer, friendship is tested by choices that cannot easily be undone.</p></section>
+    <div class="reader-status"><span id="pageStatus">Page 1 of ${total}</span><span id="percentStatus">0% read</span></div><div class="progress-track" role="progressbar" aria-label="Reading progress" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><div class="progress-fill" id="progressFill"></div></div>
+  `;
+  reader.parentNode.insertBefore(shell,reader);
+  shell.appendChild(reader);
+  const dock=document.createElement('nav');dock.className='reader-dock';dock.setAttribute('aria-label','Manga page navigation');
+  dock.innerHTML=`<div class="dock-inner"><button class="nav-btn" id="prevPage">← Back</button><select class="page-picker" id="pagePicker" aria-label="Jump to scene">${options}</select><button class="nav-btn primary" id="nextPage">Next →</button></div>`;
+  document.body.appendChild(dock);
+  const picker=dock.querySelector('#pagePicker'),prev=dock.querySelector('#prevPage'),next=dock.querySelector('#nextPage');
+  const status=shell.querySelector('#pageStatus'),percent=shell.querySelector('#percentStatus'),fill=shell.querySelector('#progressFill'),track=shell.querySelector('.progress-track');
+  let current=0;
+  function go(i){i=Math.max(0,Math.min(total-1,i));current=i;pages[i].scrollIntoView({behavior:'smooth',block:'start'});picker.value=String(i);update();}
+  function update(){const pct=total?Math.round(((current+1)/total)*100):0;status.textContent=`Page ${current+1} of ${total}`;percent.textContent=`${pct}% read`;fill.style.width=pct+'%';track.setAttribute('aria-valuenow',String(pct));prev.disabled=current===0;next.disabled=current===total-1;}
+  prev.addEventListener('click',()=>go(current-1));next.addEventListener('click',()=>go(current+1));picker.addEventListener('change',()=>go(Number(picker.value)));
+  const focus=shell.querySelector('#focusToggle');focus.addEventListener('click',()=>{document.body.classList.toggle('focus-mode');focus.setAttribute('aria-pressed',String(document.body.classList.contains('focus-mode')));focus.textContent=document.body.classList.contains('focus-mode')?'Exit focus':'Focus'});
+  const theme=shell.querySelector('#themeToggle');theme.addEventListener('click',()=>{document.body.classList.toggle('warm-mode');theme.setAttribute('aria-pressed',String(document.body.classList.contains('warm-mode')));theme.textContent=document.body.classList.contains('warm-mode')?'Cool tone':'Warm tone'});
+  const full=shell.querySelector('#fullToggle');full.addEventListener('click',async()=>{try{if(!document.fullscreenElement)await document.documentElement.requestFullscreen();else await document.exitFullscreen()}catch(e){full.textContent='Full'} });
+  let ticking=false;
+  function onScroll(){if(ticking)return;ticking=true;requestAnimationFrame(()=>{let best=0,bestDist=Infinity;const anchor=window.innerHeight*.28;pages.forEach((pg,i)=>{const r=pg.getBoundingClientRect();const d=Math.abs(r.top-anchor);if(r.bottom>anchor&&r.top<window.innerHeight&&d<bestDist){best=i;bestDist=d}});current=best;picker.value=String(best);update();ticking=false;});}
+  window.addEventListener('scroll',onScroll,{passive:true});
+  window.addEventListener('keydown',e=>{if(['INPUT','TEXTAREA','SELECT'].includes(document.activeElement?.tagName))return;if(e.key==='ArrowRight'||e.key==='PageDown'){e.preventDefault();go(current+1)}if(e.key==='ArrowLeft'||e.key==='PageUp'){e.preventDefault();go(current-1)}});
+  // Resume from the beginning of the reader; navigation state is deliberately not stored.
+  update();
+  // Add accessible labels to generated artwork and retain the original illustrated panels.
+  reader.querySelectorAll('.panel').forEach((panel,i)=>{const svg=panel.querySelector('svg.art');if(svg){svg.setAttribute('role','img');svg.setAttribute('aria-label',`Illustrated manga panel ${i+1}`)}});
+})();
+</script>
+
+</body></html>
